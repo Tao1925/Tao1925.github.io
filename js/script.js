@@ -78,7 +78,7 @@ const mainStage = new Stage("main-canvas");
 const stages = [trailsStage, mainStage];
 
 //随机文字烟花内容
-const randomWords = ["烟花易逝", "人情长久"];
+const randomWords = ["旗开得胜", "最佳拍档", "6666"];
 const wordDotsMap = {};
 randomWords.forEach((word) => {
 	wordDotsMap[word] = MyMath.literalLattice(word, 3, "Gabriola,华文琥珀", "90px");
@@ -571,10 +571,16 @@ function randomColor(options) {
 }
 
 // 随机获取一段文字
+
+let currentIndex = 0;
+
 function randomWord() {
 	if (randomWords.length === 0) return "";
 	if (randomWords.length === 1) return randomWords[0];
-	return randomWords[(Math.random() * randomWords.length) | 0];
+	const word = randomWords[currentIndex];
+	currentIndex = (currentIndex + 1) % randomWords.length;
+	return word;
+	// return randomWords[(Math.random() * randomWords.length) | 0];
 }
 
 function whiteOrGold() {
@@ -2052,11 +2058,13 @@ class Shell {
 		//点阵星星工厂
 		const dotStarFactory = (point, color, strobe, strobeColor) => {
 			const standardInitialSpeed = this.spreadSize / 1800;
+			
+			strobe = true;
 
 			if (strobe) {
 				//随机speed 0.05~0.15
 				var speed = Math.random() * 0.1 + 0.05;
-
+				speed = 0.05;
 				const star = Star.add(
 					point.x,
 					point.y,
@@ -2082,7 +2090,7 @@ class Shell {
 					Math.random() * 2 * Math.PI,
 					// apply near cubic falloff to speed (places more particles towards outside)
 					Math.pow(Math.random(), 0.15) * 1.4,
-					this.starLife + Math.random() * this.starLife * this.starLifeVariation + 1000
+					5 * this.starLife + Math.random() * this.starLife * this.starLifeVariation + 1000
 				);
 			}
 
@@ -2155,7 +2163,7 @@ class Shell {
 		}
 
 		if (!this.disableWordd && store.state.config.wordShell) {
-			if (Math.random() < 0.1) {
+			if (Math.random() < 0.2) {
 				if (Math.random() < 0.5) {
 					createWordBurst(randomWord(), dotStarFactory, x, y);
 				}
