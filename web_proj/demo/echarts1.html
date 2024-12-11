@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ECharts 动画示例</title>
+  <script src="https://cdn.jsdelivr.net/npm/echarts@5.3.0/dist/echarts.min.js"></script>
+  <style>
+    /* 设置容器的大小 */
+    #chart {
+      width: 600px;
+      height: 400px;
+      margin: 0 auto;
+    }
+  </style>
+</head>
+<body>
+
+<!-- ECharts 图表容器 -->
+<div id="chart"></div>
+
+<script>
+  // 初始化 ECharts 实例
+  var chart = echarts.init(document.getElementById('chart'));
+
+  // 配置项
+  var option = {
+    xAxis: {
+      type: 'category',
+      data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+    },
+    yAxis: {
+      type: 'value'
+    },
+    series: [{
+      data: [150, 230, 224, 218, 135, 147, 260],
+      type: 'line',
+      smooth: true, // 使线条平滑
+      lineStyle: {
+        width: 3
+      },
+      symbol: 'circle', // 数据点的样式为圆形
+      symbolSize: 8, // 数据点的大小
+      animation: true, // 启用动画
+      animationDuration: 30000, // 动画持续时间
+      animationEasing: 'elasticOut', // 弹性缓动效果
+      animationDelay: function (idx) {
+        return idx * 200; // 每个数据点有不同的延迟
+      },
+      animationDurationUpdate: 15000, // 更新时的动画时长
+      animationEasingUpdate: 'bounceOut' // 更新时的弹跳效果
+    }]
+  };
+
+  // 使用配置项生成图表
+  chart.setOption(option);
+</script>
+
+</body>
+</html>

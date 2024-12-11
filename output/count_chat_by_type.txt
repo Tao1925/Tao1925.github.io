@@ -1,0 +1,6 @@
+total 53982
+normal_msg 32107
+photo 9686
+emoji 8796
+voice_msg 674
+video 652

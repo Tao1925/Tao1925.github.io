@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>词云示例</title>
+  <script src="https://cdn.jsdelivr.net/npm/wordcloud2.js"></script>
+  <style>
+    #word-cloud {
+      width: 800px;
+      height: 400px;
+      margin: auto;
+    }
+  </style>
+</head>
+<body>
+
+<canvas id="word-cloud"></canvas>
+
+<script>
+  const words = [
+    { text: 'JavaScript', weight: 15 },
+    { text: 'HTML', weight: 12 },
+    { text: 'CSS', weight: 10 },
+    { text: 'Python', weight: 9 },
+    { text: 'Node.js', weight: 8 },
+    { text: 'React', weight: 7 },
+    { text: 'TypeScript', weight: 6 },
+    { text: 'Java', weight: 5 },
+    { text: 'Ruby', weight: 4 },
+    { text: 'PHP', weight: 3 }
+  ];
+
+  WordCloud(document.getElementById('word-cloud'), {
+    list: words.map(word => [word.text, word.weight]),
+    gridSize: 8,
+    weightFactor: 10,
+    fontFamily: 'Arial',
+    color: 'random-dark',
+    backgroundColor: '#f4f4f4',
+  });
+</script>
+
+</body>
+</html>

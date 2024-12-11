@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module type="PYTHON_MODULE" version="4">
+  <component name="NewModuleRootManager">
+    <content url="file://$MODULE_DIR$">
+      <excludeFolder url="file://$MODULE_DIR$/.venv" />
+      <excludeFolder url="file://$MODULE_DIR$/MemoTrace" />
+      <excludeFolder url="file://$MODULE_DIR$/data" />
+      <excludeFolder url="file://$MODULE_DIR$/output/photo/china/扬州市" />
+      <excludeFolder url="file://$MODULE_DIR$/output/photo/nj/南京眼" />
+      <excludeFolder url="file://$MODULE_DIR$/output/photo/nj/明孝陵" />
+      <excludeFolder url="file://$MODULE_DIR$/output/photo/nj/欢乐谷" />
+    </content>
+    <orderEntry type="inheritedJdk" />
+    <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="chart.js" level="application" />
+    <orderEntry type="library" name="chart.js" level="application" />
+    <orderEntry type="library" name="echarts" level="application" />
+    <orderEntry type="library" name="echarts" level="application" />
+    <orderEntry type="library" name="jquery" level="application" />
+    <orderEntry type="library" name="loader" level="application" />
+    <orderEntry type="library" name="jquery" level="application" />
+    <orderEntry type="library" name="gsap" level="application" />
+  </component>
+  <component name="PyDocumentationSettings">
+    <option name="format" value="PLAIN" />
+    <option name="myDocStringFormat" value="Plain" />
+  </component>
+</module>

@@ -1,0 +1,245 @@
+/* 基本的页面样式 */
+* {
+    margin: 0;
+    padding: 0;
+    /*box-sizing: border-box;*/
+}
+
+body, html {
+    height: 100%;
+    /*overflow: scroll;*/
+    width: 100%;
+}
+
+/* 每个部分的高度设置为 100vh */
+div[id^="page"] {
+    width: 100%;
+    height: 100vh; /* 每个部分占满一个屏幕的高度 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /*text-align: center;*/
+}
+
+/* 设置不同部分的背景色 */
+#page1 {
+    background-color: #4CAF50; /* 头部背景颜色 */
+    color: white;
+}
+
+#page2 {
+    background-color: #f8f8f8; /* 主体部分背景颜色 */
+}
+
+#page3 {
+    background-color: #333;
+    color: white;
+}
+
+#page4 {
+    background-color: white;
+}
+
+#page5 {
+    background-color: red;
+}
+
+#page6 {
+    background-color: yellow;
+}
+#page7 {
+    position: relative;
+    background-color: brown;
+}
+#page8 {
+    background-color: blue;
+}
+#page9 {
+    background-color: violet;
+}
+/* 平滑滚动效果 */
+html {
+    scroll-behavior: smooth;
+}
+
+#month_chart {
+    width:100vw;
+    height:80vh;
+}
+
+#day_chart {
+    width:100vw;
+    height:80vh;
+}
+#wordcloud_chart{
+    width:100vw;
+    height:80vh;
+}
+#calls_chart{
+    width:100vw;
+    height:80vh;
+}
+#hour_chart{
+    width:100vw;
+    height:80vh;
+}
+#china_chart{
+    position: relative;
+    width:100vw;
+    height:100vh;
+}
+#page8_wrapper{
+    width:100%;
+    height:100%;
+}
+#container{
+    width:100vw;
+    height:100vh;
+}
+
+.amap-icon img,
+.amap-marker-content img {
+    width: 25px;
+    height: 34px;
+    /*text-align: left;*/
+}
+
+.clock {
+    font-size: 5rem;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+.digit {
+    display: inline-block;
+    padding: 20px;
+    border-radius: 10px;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+#basic_info{
+    font-size: 3rem;
+    text-align: left;
+}
+#animatedNumber, .animated_num{
+    font-family: "Courier New", monospace; /* 使用等宽字体 */
+    font-size: 3rem;
+    font-weight: bold;
+    /*width: 10ch; !* 预留5位数字的宽度（10ch 是 5 位数字的宽度） *!*/
+    text-align: right;
+    white-space: nowrap; /* 防止换行 */
+}
+span{
+    display: inline-block;
+}
+.typing{
+
+    border: 2px solid #000; /* 边框颜色和宽度 */
+    border-radius: 20px; /* 圆角半径 */
+    padding: 5px;
+    margin: 5px;
+    /*width: 20vw;*/
+    max-width: 30vw;
+    font-size: 2rem;
+    text-align: left;
+}
+.circle_container {
+    width: 10vh; /* 容器的宽度 */
+    height: 10vh; /* 容器的高度，设置为正方形 */
+    border-radius: 50%; /* 将容器裁剪为圆形 */
+    overflow: hidden; /* 隐藏超出圆形容器的部分 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.circle_container img {
+    width: 100%; /* 图片自适应容器宽度 */
+    height: auto; /* 保持图片比例 */
+}
+#chat_container{
+    position: absolute;
+    width: 60vw;
+    left: 20vw;
+    top: 20vh;
+    height: 60vh;
+    display: flex;
+    flex-direction: column;
+}
+#chat_container div{
+    display: flex;
+}
+.single_chat{
+    /*flex-direction: row;*/
+    direction: rtl;
+}
+#up_arrow{
+    position: fixed;
+    z-index: 20000;
+    top: 0;
+    right: 0;
+    transform: scale(0.1);
+    transform-origin: top right;
+    opacity: 0.5;
+}
+#down_arrow{
+    position: fixed;
+    z-index: 20000;
+    bottom: 0;
+    right: 0;
+    transform: scale(0.1);
+    transform-origin: bottom right;
+    opacity: 0.5;
+}
+#heart_container{
+    position: absolute;
+    width: 20vw;
+    left: 40vw;
+    height: 20vh;
+    top: 80vh;
+}
+
+.heart {
+    position: absolute;
+    margin: auto;
+    top: 75vh;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-color: pink;
+    height: 10vh;
+    width: 10vh;
+    transform: rotate(-45deg);
+    animation-name: beat;
+    animation-duration: 1.2s;
+    animation-iteration-count: infinite;
+}
+.heart:after {
+    background-color: pink;
+    content: "";
+    border-radius: 50%;
+    position: absolute;
+    width: 10vh;
+    height: 10vh;
+    top: 0;
+    left: 5vh;
+}
+.heart:before {
+    background-color: pink;
+    content: "";
+    border-radius: 50%;
+    position: absolute;
+    width: 10vh;
+    height: 10vh;
+    top: -5vh;
+    left: 0;
+}
+
+
+@keyframes beat {
+    0% {
+        transform: scale(1) rotate(-45deg);
+    }
+    50% {
+        transform: scale(0.6) rotate(-45deg);
+    }
+}

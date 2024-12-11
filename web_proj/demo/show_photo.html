@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Show Photo</title>
+</head>
+<body>
+
+<div id="show_test_main"></div>
+
+
+<script>
+    const show_test_main = document.getElementById("show_test_main")
+    const img = document.createElement('img');
+    img.src = "/output/photo/nj/南京市第九中学/3.jpg"
+    img.onload = function(){
+        // 获取屏幕的宽高
+        const screenWidth = window.innerWidth;
+        const screenHeight = window.innerHeight;
+
+        // 计算目标面积 (屏幕面积的1/8)
+        const targetArea = (screenWidth * screenHeight) / 8;
+
+        // 图片的原始宽高
+        const originalWidth = img.naturalWidth;
+        const originalHeight = img.naturalHeight;
+
+        // 计算图片的长宽比
+        const aspectRatio = originalWidth / originalHeight;
+
+        // 计算目标宽高，使图片面积接近 targetArea 且保持长宽比
+        const targetWidth = Math.sqrt(targetArea * aspectRatio);
+        const targetHeight = targetWidth / aspectRatio;
+
+        // 设置图片的宽高
+        img.style.width = `${targetWidth}px`;
+        img.style.height = `${targetHeight}px`;
+    }
+    show_test_main.appendChild(img);
+</script>
+
+</body>
+</html>
