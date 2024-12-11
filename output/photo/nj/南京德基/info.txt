@@ -1,0 +1,4 @@
+3
+1.jpg horizontal
+2.jpg horizontal
+3.jpg vertical

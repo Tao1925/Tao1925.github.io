@@ -1,0 +1,4 @@
+3
+changzhou2.jpg horizontal
+changzhou3.jpg vertical
+changzhou7.jpg vertical

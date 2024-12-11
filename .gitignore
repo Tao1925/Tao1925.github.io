@@ -10,7 +10,6 @@ __pycache__/
 MemoTrace/
 data/
 web_proj/tmp/
-output/photo/
 
 # Distribution / packaging
 .Python
