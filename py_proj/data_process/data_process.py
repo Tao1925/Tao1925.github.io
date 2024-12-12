@@ -286,13 +286,13 @@ def read_csv():
     # count_chat_monthly(reader)
     # count_chat_daily(reader)
     # count_chat_hourly(reader)
-    # count_word_frequency(reader)
+    count_word_frequency(reader)
     # gen_photos_info("../../output/photo/nj")
     # gen_photos_info("../../output/photo/china")
     # count_call()
     # resize_photos("../../output/photo/movie_tmp", "../../output/photo/movie")
     # count_by_month()
-    count_char(reader)
+    # count_char(reader)
 
 
 if __name__ == '__main__':

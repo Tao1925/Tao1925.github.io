@@ -24,6 +24,7 @@ function loadContent(targetId, file) {
             }
             if (targetId === "page5"){
                 create_wordcloud_chart();
+                // create_new_wordcloud_canvas();
             }
             if (targetId === "page6"){
                 create_hour_chart();
@@ -38,7 +39,10 @@ function loadContent(targetId, file) {
                 create_movie_page();
             }
             if (targetId === "page10"){
-                // create_time_page();
+                create_time_page();
+            }
+            if (targetId === "page12"){
+                create_middle_animation();
             }
         })
         .catch(err => console.error(err));
@@ -382,10 +386,13 @@ async function show_photos(page_id, marker_name) {
 
 // 加载内容
 document.addEventListener('DOMContentLoaded', () => {
-    for (let i = 0; i <= 9; i++) {
+    for (let i = 0; i <= 12; i++) {
         loadContent('page' + i, 'html/page' + i + '.html');
     }
-    for (let i = 1; i <= 3; i++) {
+    for (let i = 1; i <= 4; i++) {
+        loadContent('page' + i + '-1', 'html/page' + i + '-1.html');
+    }
+    for (let i = 5; i <= 9; i++) {
         loadContent('page' + i + '-1', 'html/page' + i + '-1.html');
     }
 });
@@ -855,10 +862,6 @@ async function create_day_chart() {
         var chartDom = document.getElementById('day_chart');
         var myChart = echarts.init(chartDom);
         var option = {
-            title: {
-                text: 'Beijing AQI',
-                left: '1%'
-            },
             tooltip: {
                 trigger: 'axis'
             },
@@ -928,7 +931,6 @@ async function create_day_chart() {
                 }
             },
             series: {
-                name: 'Beijing AQI',
                 type: 'line',
                 data: numbers,
                 markLine: {
@@ -963,7 +965,7 @@ async function create_day_chart() {
     }
 }
 
-async function create_wordcloud_chart(){
+async function create_new_wordcloud_canvas() {
     try {
         const response = await fetch("/output/count_word_frequency.txt");
         const content = await response.text();
@@ -979,65 +981,118 @@ async function create_wordcloud_chart(){
                 numbers.push(parseInt(parts[1]));
             }
         })
-
         console.log(strings)
         console.log(numbers)
         const tmp_data = strings.map((str, idx) =>({
             name: str,
             value: numbers[idx]
         }));
-        const data = tmp_data.slice(0, 100);
+        const data = tmp_data.slice(0, 10);
         console.log(data)
 
-        var maskImage = new Image();
-        maskImage.src = '/web_proj/res/heart_mask.png'
+        // var maskImage = new Image();
+        // maskImage.src = '/web_proj/res/heart_mask.png'
 
-        var chart = echarts.init(document.getElementById('wordcloud_chart'));
-        /*
-        var data = [
-            { name: 'ECharts', value: 10000 },
-            { name: 'WordCloud', value: 6181 },
-            { name: 'Data', value: 4386 },
-            { name: 'JavaScript', value: 4055 },
-            { name: 'Python', value: 2467 },
-            { name: 'React', value: 1981 },
-            { name: 'Node.js', value: 1506 },
-            { name: 'Chart', value: 1483 },
-            { name: 'VUE', value: 1323 },
-            { name: 'CSS', value: 1024 }
-        ];
-        */
-        // 配置项
-        var option = {
-            tooltip: {
-                show: true
-            },
-            series: [{
-                type: 'wordCloud',
-                gridSize: 20,
-                sizeRange: [12, 60],
-                rotationRange: [-90, 90],
-                shape: 'circle',
-                maskImage: maskImage,
-                right: null,
-                bottom: null,
-                width: '100%',
-                height: '100%',
-                drawOutOfBound: true,
-                data: data,
-            }]
-        };
+        var myCanvas = document.getElementById("myCanvas");
 
-        maskImage.onload = function (){
-            // option.series[0].maskImage;
-            chart.setOption(option);
-        }
-
+        WordCloud(myCanvas, {list:data});
+        // maskImage.onload = function() => {
+        //     WordCloud(document.getElementById("myCanvas"),{
+        //         list: data,
+        //         gridSize: 8,             // 词之间的间隔
+        //         weightFactor: 15,        // 字体大小倍数
+        //         fontFamily: 'Arial',     // 字体
+        //         color: 'random-dark',    // 随机深色字体
+        //         rotateRatio: 0.5,        // 旋转概率
+        //         backgroundColor: '#ffffff', // 背景色
+        //         maskImage: maskImage,
+        //     });
+        // }
 
 
     } catch (error){
         console.error('读取文件失败:', error);
     }
+}
+
+
+async function create_wordcloud_chart(){
+ try {
+     const response = await fetch("/output/count_word_frequency.txt");
+     const content = await response.text();
+     const lines = content.split('\n');
+
+     const strings = [];
+     const numbers = [];
+
+     lines.forEach(line => {
+         const  parts = line.split(' ');
+         if (parts.length === 2){
+             strings.push(parts[0]);
+             numbers.push(parseInt(parts[1]));
+         }
+     })
+
+     console.log(strings)
+     console.log(numbers)
+     const tmp_data = strings.map((str, idx) =>({
+         name: str,
+         value: numbers[idx]
+     }));
+     const data = tmp_data.slice(0, 150);
+     console.log(data)
+
+     var maskImage = new Image();
+     maskImage.src = '/web_proj/res/heart_mask.png'
+
+     var chart = echarts.init(document.getElementById('wordcloud_chart'));
+     /*
+     var data = [
+         { name: 'ECharts', value: 10000 },
+         { name: 'WordCloud', value: 6181 },
+         { name: 'Data', value: 4386 },
+         { name: 'JavaScript', value: 4055 },
+         { name: 'Python', value: 2467 },
+         { name: 'React', value: 1981 },
+         { name: 'Node.js', value: 1506 },
+         { name: 'Chart', value: 1483 },
+         { name: 'VUE', value: 1323 },
+         { name: 'CSS', value: 1024 }
+     ];
+     */
+     // 配置项
+     var option = {
+         tooltip: {
+             show: true
+         },
+         series: [{
+             type: 'wordCloud',
+             gridSize: 20,
+             sizeRange: [24, 120],
+             rotationRange: [-90, 90],
+             shape: 'circle',
+//                 maskImage: maskImage,
+             right: null,
+             bottom: null,
+             width: '100%',
+             height: '100%',
+             drawOutOfBound: false,
+             data: data,
+         }]
+     };
+     chart.setOption(option);
+
+
+//         maskImage.onload = function (){
+//             // option.series[0].maskImage;
+//             chart.setOption(option);
+//         }
+
+
+
+ } catch (error){
+     console.error('读取文件失败:', error);
+ }
 }
 
 async function create_calls_chart(){
@@ -1500,54 +1555,63 @@ async function create_movie_page() {
             movie_container.appendChild(movie_wrapper);
         })
 
+
+        ScrollTrigger.create({
+            trigger: "#page9",
+            start: "top center",
+            onEnter: () =>{
+                console.log("successfully enter");
+                gsap.to(movie_container, {
+                    duration: 30,
+                    left: "-100vw",
+                    ease: "none",
+                })
+            }
+        })
+
+
+
     }catch (error){
         console.log(error)
     }
 }
 
+function calculateDaysBetween(date1, date2) {
+    const date1Obj = new Date(date1); // 将第一个日期转为 Date 对象
+    const date2Obj = new Date(date2); // 将第二个日期转为 Date 对象
+
+    // 计算两个日期的时间戳差值（毫秒）
+    const diffTime = Math.abs(date2Obj - date1Obj);
+
+    // 将差值从毫秒转换为天数
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+    return diffDays;
+}
+
 function updateTime(){
-    const { hours, minutes, seconds } = getFormattedTime();
+    const now = new Date();
+    const hours = String(now.getHours()).padStart(2, '0');
+    const minutes = String(now.getMinutes()).padStart(2, '0');
+    const seconds = String(now.getSeconds()).padStart(2, '0');
+
+    const today = new Date().toISOString().split("T")[0];
+    const meet_days = calculateDaysBetween(today, "2016-07-18");
+    const love_days = calculateDaysBetween(today, "2020-12-17");
+
+    const meet_days_element = document.getElementById("meet_days");
+    meet_days_element.innerHTML = meet_days;
+    const love_days_element = document.getElementById("love_days");
+    love_days_element.innerHTML = love_days;
 
     // 更新小时、分钟和秒钟的文本
-    const hourElement = document.getElementById('hours');
-    const minuteElement = document.getElementById('minutes');
-    const secondElement = document.getElementById('seconds');
+    const hourElement = document.getElementById('hour');
+    hourElement.innerHTML = hours;
+    const minuteElement = document.getElementById('minute');
+    minuteElement.innerHTML = minutes;
+    const secondElement = document.getElementById('second');
+    secondElement.innerHTML = seconds;
 
-    // 使用 GSAP 为每个部分添加动画效果
-    gsap.fromTo(hourElement, {
-        opacity: 0, // 初始状态透明
-        scale: 0.5  // 初始状态缩小
-    }, {
-        opacity: 1, // 变为完全不透明
-        scale: 1,   // 还原为原始大小
-        duration: 0.6, // 动画持续时间
-        ease: "back.out(1.7)", // 缓动效果
-    });
-
-    gsap.fromTo(minuteElement, {
-        opacity: 0,
-        scale: 0.5
-    }, {
-        opacity: 1,
-        scale: 1,
-        duration: 0.6,
-        ease: "back.out(1.7)",
-    });
-
-    gsap.fromTo(secondElement, {
-        opacity: 0,
-        scale: 0.5
-    }, {
-        opacity: 1,
-        scale: 1,
-        duration: 0.6,
-        ease: "back.out(1.7)",
-    });
-
-    // 更新 DOM 中的时间显示
-    hourElement.textContent = hours;
-    minuteElement.textContent = minutes;
-    secondElement.textContent = seconds;
 
 }
 
@@ -1558,4 +1622,28 @@ function create_time_page(){
 
     // 初次运行时立即更新一次时间
     updateTime();
+}
+async function middle_animation(){
+    const middle_container = document.getElementById('middle_container');
+    const p1 = document.createElement('p');
+    middle_container.appendChild(p1)
+    p1.innerHTML = "结束了";
+    await delay(2000);
+    p1.innerHTML = "结束了吗？";
+    await delay(2000);
+    const p2 = document.createElement('p');
+    middle_container.appendChild(p2);
+    p2.innerHTML = "当然不！";
+    await delay(2000);
+
+}
+function create_middle_animation(){
+    ScrollTrigger.create({
+        trigger: "#page12",
+        start: "top center",
+        onEnter: () =>{
+            console.log("successfully enter");
+            middle_animation();
+        }
+    })
 }
