@@ -20,10 +20,10 @@ function loadContent(targetId, file) {
                 create_day_chart();
             }
             if (targetId === "page4"){
-                create_wordcloud_chart();
+                create_calls_chart();
             }
             if (targetId === "page5"){
-                create_calls_chart();
+                create_wordcloud_chart();
             }
             if (targetId === "page6"){
                 create_hour_chart();
@@ -44,12 +44,13 @@ function loadContent(targetId, file) {
         .catch(err => console.error(err));
 }
 
-function timeToDecimal(timeStr) {
+function timeToDecimal(timeStr, duration) {
+    // count call的第二个参数为通话的结束时间，第四个参数为通话长度
+    // 因此需要相减，得到通话的开始时间
     // 分割输入的时间字符串
     const [hours, minutes] = timeStr.split(":").map(Number);
-
-    // 将分钟转换为小时，并返回总的小时数
-    return hours + minutes / 60;
+    // 返回总的分钟数
+    return (hours * 60 + minutes - parseInt(duration) + 24 * 60) % (24 * 60)
 }
 
 
@@ -384,7 +385,7 @@ document.addEventListener('DOMContentLoaded', () => {
     for (let i = 0; i <= 9; i++) {
         loadContent('page' + i, 'html/page' + i + '.html');
     }
-    for (let i = 1; i <= 2; i++) {
+    for (let i = 1; i <= 3; i++) {
         loadContent('page' + i + '-1', 'html/page' + i + '-1.html');
     }
 });
@@ -660,10 +661,17 @@ async function show_heart(){
 
 }
 
+function play_music(){
+    const music = document.getElementById("mby_music");
+    music.loop = true; // 设置循环播放
+    music.play();
+}
+
 
 async function set_page0_animation(){
 
     document.getElementById("begin_text").addEventListener("click", function () {
+        play_music();
         gen_chat();
     })
 
@@ -1045,9 +1053,9 @@ async function create_calls_chart(){
                             const parts = line.split(' ');
                             if (parts.length === 4){
                                 if (parts[2] === "audio") {
-                                    audio_data.push([parts[0], timeToDecimal(parts[1]), parseInt(parts[3])]);
+                                    audio_data.push([parts[0], timeToDecimal(parts[1],parts[3]), parseInt(parts[3])]);
                                 }else if (parts[2] === "video") {
-                                    video_data.push([parts[0], timeToDecimal(parts[1]), parseInt(parts[3])]);
+                                    video_data.push([parts[0], timeToDecimal(parts[1],parts[3]), parseInt(parts[3])]);
                                 }
                             }
                         })
@@ -1064,19 +1072,98 @@ async function create_calls_chart(){
                     fontSize: 16
                 }
             },
+            visualMap: [
+                {
+                    type: 'continuous',
+                    seriesIndex: 0, // 关联第一个 series
+                    min: 0,
+                    max: 100,
+                    inRange: {
+                        color: ['#ffe5e5', '#ff9999', '#ff4d4d']// 第一组颜色
+                    },
+                    calculable: true,
+                    orient: 'vertical',
+                    left: 'left',
+                    bottom: 'center',
+                    // text: ['High (Group 1)', 'Low (Group 1)'],
+                    textStyle: {
+                        color: 'transparent',
+                    }
+                },
+                {
+                    type: 'continuous',
+                    seriesIndex: 1, // 关联第二个 series
+                    min: 0,
+                    max: 100,
+                    inRange: {
+                        color: ['#e5ffe5', '#99ff99', '#4dff4d'] // 第二组颜色
+                    },
+                    calculable: true,
+                    orient: 'vertical',
+                    right: 'left',
+                    bottom: 'center',
+                    text: ['High (Group 2)', 'Low (Group 2)'],
+                    textStyle: {
+                        color: 'transparent',
+                    }
+                }
+            ],
+            // xAxis: {
+            //     type: 'time'
+            // },
+            tooltip: {
+                trigger: 'item',
+                formatter: function (params) {
+                    var date = new Date(params.data[0]);
+                    var time = Math.floor(params.data[1] / 60) + ':' + (params.data[1] % 60).toString().padStart(2, '0');
+                    return `日期: ${date.toISOString().slice(0, 10)}<br>开始时间: ${time}<br>通话时长: ${params.data[2]}`;
+                }
+            },
             xAxis: {
-                type: 'time'
+                type: 'time',
+                name: 'Date',
+                nameLocation: 'middle',
+                nameGap: 25,
+                axisLabel: {
+                    formatter: function (value) {
+                        var date = new Date(value); // 将时间戳转为日期对象
+                        var year = date.getFullYear();
+                        var month = (date.getMonth() + 1).toString().padStart(2, '0'); // 月份从0开始
+                        var day = date.getDate().toString().padStart(2, '0');
+                        return `${year}-${month}-${day}`; // 格式化为 yyyy-MM-dd
+                    }
+                }
             },
             yAxis: {
-                type: 'value'
+                type: 'value',
+                name: 'Time (Minutes)',
+                nameLocation: 'middle',
+                nameGap: 30,
+                axisLabel: {
+                    formatter: function (value) {
+                        var hours = Math.floor(value / 60);
+                        var minutes = value % 60;
+                        return hours + ':' + minutes.toString().padStart(2, '0');
+                    }
+                },
+                min: 0,
+                max: 24 * 60, // 一天的分钟数
             },
             series: [
                 {
-                    name: '北京',
+                    name: '语音',
                     type: 'scatter',
                     data: audio_data,
                     symbolSize: function (data){
-                        return data[2];
+                        return Math.sqrt(data[2] + 1) * 3;
+                    }
+                },
+                {
+                    name: '视频',
+                    type: 'scatter',
+                    data: video_data,
+                    symbolSize: function (data){
+                        return Math.sqrt(data[2] + 1) * 3;
                     }
                 }
             ],
