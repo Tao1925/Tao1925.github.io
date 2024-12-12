@@ -1,7 +1,7 @@
 import csv
 import os
-# from PIL import Image
-# import jieba
+from PIL import Image
+import jieba
 from collections import Counter
 
 TYPE_INDEX = 2
@@ -10,6 +10,67 @@ DATE_INDEX = 8
 NAME_INDEX = 10
 MONTH_STRING_SIZE = 7
 DAY_STRING_SIZE = 10
+
+
+def compress_image(input_path, output_path, min_size_kb=150, max_size_kb=300):
+    """
+    压缩图片以保证大小在 min_size_kb 和 max_size_kb 之间，同时保持纵横比不变。
+    :param input_path: 原始图片路径
+    :param output_path: 输出图片路径
+    :param min_size_kb: 最小目标文件大小 (单位: KB)
+    :param max_size_kb: 最大目标文件大小 (单位: KB)
+    """
+    min_size_bytes = min_size_kb * 1024
+    max_size_bytes = max_size_kb * 1024
+
+    # 打开图片
+    with Image.open(input_path) as img:
+
+        # 如果图片是 RGBA 模式，转换为 RGB
+        if img.mode == 'RGBA':
+            img = img.convert('RGB')
+
+        # 获取原始图片尺寸
+        original_width, original_height = img.size
+
+        # 初始化压缩比例和输出图片
+        scale_factor = 1.0
+        while True:
+            # 调整图片尺寸（保持纵横比）
+            new_width = int(original_width * scale_factor)
+            new_height = int(original_height * scale_factor)
+            resized_img = img.resize((new_width, new_height), Image.Resampling.LANCZOS)
+
+            # 保存到临时文件以获取文件大小
+            resized_img.save(output_path, optimize=True, quality=85)
+            file_size = os.path.getsize(output_path)
+
+            # 如果文件大小在目标范围内，则完成
+            if min_size_bytes <= file_size <= max_size_bytes:
+                print(f"压缩完成：文件大小为 {file_size / 1024:.2f} KB")
+                break
+            elif file_size > max_size_bytes:
+                # 如果文件太大，继续缩小尺寸
+                scale_factor *= 0.9
+            else:
+                # 如果文件太小，适当提高尺寸（但不会超过原始尺寸）
+                if scale_factor >= 1.0:
+                    print("无法达到目标文件大小范围")
+                    break
+                scale_factor *= 1.1
+
+
+def resize_photos(input_folder, output_folder):
+    photos = []
+
+    for f in os.listdir(input_folder):
+        if os.path.isfile(os.path.join(input_folder, f)):
+            photos.append(f)
+
+    for photo_filename in photos:
+        input_photo_path = os.path.join(input_folder, photo_filename)
+        output_photo_path = os.path.join(output_folder, photo_filename)
+        compress_image(input_photo_path, output_photo_path)
 
 
 def count_chat_monthly(reader):
@@ -65,6 +126,7 @@ def count_chat_hourly(reader):
         for key, value in hour_dicts[i].items():
             f.write(["SXY", "TSY"][i] + ' ' + key + ' ' + str(value) + '\n')
 
+
 def count_word_frequency(reader):
     text_list = []
     for row in reader:
@@ -80,7 +142,7 @@ def count_word_frequency(reader):
 
     # 统计词频
     word_counts = Counter(word_list)
-    sorted_word_counts = dict(sorted(word_counts.items(), key=lambda item: item[1],reverse=True))
+    sorted_word_counts = dict(sorted(word_counts.items(), key=lambda item: item[1], reverse=True))
     # 输出词频
     f = open("../../output/count_word_frequency.txt", mode='w', encoding='utf-8')
 
@@ -88,6 +150,7 @@ def count_word_frequency(reader):
         if len(word) <= 1: continue
         if len(word) != 3 and word[0] == word[1]: continue
         f.write(f"{word} {count}\n")
+
 
 def check_img_ori(img_path):
     with Image.open(img_path) as img:
@@ -98,6 +161,8 @@ def check_img_ori(img_path):
         return 'vertical'  # 高度大于宽度，竖向
     else:
         return 'horizontal'  # 宽度大于或等于高度，横向
+
+
 def gen_photos_info(photo_folder_path):
     # photo_folder_path = "../../output/photo/nj"
     folders = []
@@ -167,7 +232,6 @@ def count_call():
         f.close()
 
 
-
 def read_csv():
     # f = open("../../data/chat.csv", mode='r', encoding='utf-8')
     # reader = csv.reader(f)
@@ -178,8 +242,8 @@ def read_csv():
     # count_word_frequency(reader)
     # gen_photos_info("../../output/photo/nj")
     # gen_photos_info("../../output/photo/china")
-    count_call()
-
+    # count_call()
+    resize_photos("../../output/photo/movie_tmp", "../../output/photo/movie")
 
 
 if __name__ == '__main__':

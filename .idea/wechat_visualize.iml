@@ -10,7 +10,7 @@
       <excludeFolder url="file://$MODULE_DIR$/output/photo/nj/明孝陵" />
       <excludeFolder url="file://$MODULE_DIR$/output/photo/nj/欢乐谷" />
     </content>
-    <orderEntry type="inheritedJdk" />
+    <orderEntry type="jdk" jdkName="Python 3.12 (wechat_visualize)" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="chart.js" level="application" />
     <orderEntry type="library" name="chart.js" level="application" />
