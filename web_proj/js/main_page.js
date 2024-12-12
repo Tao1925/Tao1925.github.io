@@ -387,13 +387,28 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 
-function gen_single_chat(direction, user, content){
+function gen_single_chat(direction, user, content, date){
+
+    const chat_date = document.getElementById("chat_date");
+    chat_date.innerHTML = date;
+    gsap.to(chat_date, {
+        duration: 2, // 动画时长，单位为秒
+        opacity: 1, // 最终透明度
+        ease: "none" // 缓动效果，让动画更加自然
+    });
+
     var chat_container = document.getElementById('chat_container');
     const chats = chat_container.querySelectorAll('.single_chat');
     var chats_num = chats.length;
 
     const single_chat = document.createElement('div');
     single_chat.classList.add('single_chat');
+
+    gsap.to(single_chat, {
+        duration: 2, // 动画时长，单位为秒
+        opacity: 1, // 最终透明度
+        ease: "none" // 缓动效果，让动画更加自然
+    });
 
     if (direction === 'left') {
         single_chat.style.direction = 'ltr';
@@ -403,6 +418,8 @@ function gen_single_chat(direction, user, content){
 
     const circle_container = document.createElement('div');
     circle_container.classList.add('circle_container');
+
+
 
     const logo_img = document.createElement('img');
     if (user === 'sxy'){
@@ -420,7 +437,7 @@ function gen_single_chat(direction, user, content){
         output: '',
         type: 'normal',
         isEnd: false,
-        speed: 60,
+        speed: 40,
         backSpeed: 40,
         sleep: 3000,
         singleBack: false,
@@ -456,12 +473,34 @@ function delay(ms) {
 }
 
 
-function clear_chat_container() {
+async function clear_chat_container() {
     var chat_container = document.getElementById('chat_container');
     const chats = chat_container.querySelectorAll('.single_chat');
+
+    chats.forEach(chat =>{
+        gsap.to(chat, {
+            duration: 1, // 动画时长，单位为秒
+            opacity: 0, // 最终透明度
+            ease: "none" // 缓动效果，让动画更加自然
+        });
+    })
+
+    var chat_date = document.getElementById('chat_date');
+    chat_date.innerHTML = '';
+    gsap.to(chat_date, {
+        duration: 1, // 动画时长，单位为秒
+        opacity: 0, // 最终透明度
+        ease: "none" // 缓动效果，让动画更加自然
+    });
+
+
+    await delay(1000);
+
     chats.forEach(chat => {
         chat.remove();
     })
+
+
 }
 
 function scrollDown() {
@@ -486,22 +525,76 @@ function scrollDown() {
 
 async function gen_chat(){
 
-    gen_single_chat('left', 'tsy', '1234567890');
+    gen_single_chat('left', 'sxy', '政治和生物PPT喵(^_^)Hiahia...', "2016-11-04");
     await delay(2000);
-    gen_single_chat('right', 'sxy', '44556677');
+    gen_single_chat('right', 'tsy', '要个PPT咋还卖萌呐', "2016-11-04");
     await delay(2000);
-    // gen_single_chat('left', 'sxy', '098765432');
-    // await delay(2000);
-    // clear_chat_container();
+    gen_single_chat('right', 'tsy', '才拿到手机，等会儿', "2016-11-04");
+    await delay(2000);
+    clear_chat_container();
+    await delay(2000);
+    gen_single_chat('right', 'tsy', '再也没这么好的后桌了', "2017-08-16");
+    await delay(2000);
+    gen_single_chat('left', 'sxy', '哎呀捂脸(*/∇\\*)', "2017-08-16");
+    await delay(2000);
+    gen_single_chat('left', 'sxy', '是呀我也没有这么有爱的前桌re', "2017-08-16");
+    await delay(2000);
+    clear_chat_container();
+    gen_single_chat('left', 'sxy', '原来你是双子座的 不然6.22正好是巨蟹座的第一天', "2018-06-22");
+    await delay(2000);
+    gen_single_chat('left', 'sxy', '这样就可以名正言顺的说我喜欢的人都是双子座啦！', "2018-06-22");
+    await delay(2000);
+    clear_chat_container();
+    await delay(2000);
+    gen_single_chat('right', 'tsy', '和喜欢的人在一起，时间过得好快呀', "2019-10-26");
+    await delay(2000);
+    gen_single_chat('left', 'sxy', '想见的人就要去见', "2019-10-26");
+    await delay(2000);
+    gen_single_chat('left', 'sxy', '总之岁月漫长 然而值得等待 有些人会为你而来', "2019-10-26");
+    await delay(2000);
+    clear_chat_container();
+    await delay(2000);
+    gen_single_chat('left', 'sxy', '一直都很想说的话：我觉得自己再也不会对另外一个男生有现在的勇气和热情了 你一直都是我心中优秀男生的典范', "2020-11-01");
+    await delay(2000);
+    clear_chat_container();
+    await delay(2000);
+    gen_single_chat('right', 'tsy', '最后夹带一点私货，我喜欢九中的另一个原因，是我在高中的时候，有幸遇见了那个她，在我的高中生涯中有一段非常美好的回忆', "2021-03-04");
+    await delay(2000);
+    clear_chat_container();
+    await delay(2000);
+    gen_single_chat('left', 'sxy', '而让我一次次回头的，不是那沟壑本身，也不是沟壑里的荆棘和毒物，而是照着沟壑的月亮，和在沟壑里颠簸的月光。', "2022-11-18");
+    await delay(2000);
+    clear_chat_container();
+    await delay(2000);
+    gen_single_chat('left', 'sxy', '17年和我一起在教室里戴耳机听《琵琶行》的你\n' +
+        '             20年和我一起在同里坐手摇船的你\n' +
+        '             23年和我一起在南浔戴耳机坐手摇船的你\n' +
+        '             是我青春岁月里最重要的你', "2023-08-20");
+    await delay(2000);
+    clear_chat_container();
+    await delay(2000);
+    gen_single_chat('left', 'sxy', '当我向别人介绍你时，我会说我们在一起好久好久了。自认为记忆力很好的我，在回看信件时也会感叹，许多高中和大学记忆中的画面渐渐离我远去。但不变的是，我仍会认为与你见面的日子是我生命中最重要的日子，因为那是难得与现实短暂剥离的时刻，我倍感珍惜。\n' +
+        '              爱你，已经成为了我的习惯。', "2024-05-05");
+    await delay(2000);
+    clear_chat_container();
+    await delay(2000);
     // await delay(3000);
     // scrollDown();
     // await delay(3000);
     // scrollDown();
+    show_heart();
 
 }
 
 async function show_heart(){
-    const heart_container = document.getElementById('heart_container');
+    const heart_beat = document.getElementById('heart_beat');
+    heart_beat.style.display = 'flex';
+
+    gsap.to(heart_beat, {
+        duration: 2, // 动画时长，单位为秒
+        opacity: 1, // 最终透明度
+        ease: "none" // 缓动效果，让动画更加自然
+    });
 
 }
 
@@ -509,7 +602,6 @@ async function show_heart(){
 async function set_page0_animation(){
 
     await gen_chat();
-    await show_heart();
 
 
 }
