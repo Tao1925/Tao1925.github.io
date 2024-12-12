@@ -210,6 +210,7 @@ span{
 }
 #begin_text{
     position: absolute;
+    font-size: 5rem;
     width: 100vw;
     left: 0;
     height: 40vh;
@@ -221,6 +222,7 @@ span{
     position: absolute;
     width: 50vw;
     height: 50vh;
+    z-index: 1000;
     top: 25vh;
     left: 25vw;
     text-align: center;

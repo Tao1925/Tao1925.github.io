@@ -437,7 +437,7 @@ function gen_single_chat(direction, user, content, date){
         output: '',
         type: 'normal',
         isEnd: false,
-        speed: 20,
+        speed: 80,
         backSpeed: 40,
         sleep: 3000,
         singleBack: false,
@@ -546,7 +546,7 @@ async function gen_chat(){
 
     var page0 = document.getElementById('page0');
     var begin_text = document.getElementById('begin_text');
-    page0.remove(begin_text);
+    begin_text.remove()
 
 
     gen_single_chat('left', 'sxy', '政治和生物PPT喵(^_^)Hiahia...', "2016-11-04");
@@ -555,7 +555,7 @@ async function gen_chat(){
     await delay(2000);
     gen_single_chat('right', 'tsy', '才拿到手机，等会儿', "2016-11-04");
     await delay(2000);
-    // clear_chat_container();
+    clear_chat_container();
     // await delay(3000);
     // gen_single_chat('right', 'tsy', '再也没这么好的后桌了', "2017-08-16");
     // await delay(2000);
@@ -602,8 +602,8 @@ async function gen_chat(){
     //     '              爱你，已经成为了我的习惯。', "2024-05-05");
     // await delay(10000);
     // clear_chat_container();
-    // await delay(2000);
-    show_up_down_button();
+    await delay(2000);
+    // show_up_down_button();
     show_hint_text();
     show_heart();
 
@@ -631,7 +631,7 @@ async function show_up_down_button() {
 async function show_hint_text() {
     const hint_text = document.getElementById('hint_text');
     hint_text.innerHTML = "聊天记录 \n 记录着故事 \n 承载着回忆 \n 点击开启我们的 \n 聊天记录可视化";
-    gsap.to(heart_beat, {
+    gsap.to(hint_text, {
         duration: 2, // 动画时长，单位为秒
         opacity: 1, // 最终透明度
         ease: "none" // 缓动效果，让动画更加自然
@@ -642,6 +642,11 @@ async function show_heart(){
 
     const heart_beat = document.getElementById('heart_beat');
     heart_beat.style.display = 'flex';
+
+    heart_beat.addEventListener('click', () => {
+        scrollDown();
+        show_up_down_button();
+    })
 
     gsap.to(heart_beat, {
         duration: 2, // 动画时长，单位为秒
@@ -1224,11 +1229,11 @@ async function create_china_chart(){
             visualMap: {
                 type: 'piecewise',
                 pieces: [
-                    { min: 0, max: 10, color: '#e0ffff' },   // 10 及以下的值，颜色为浅蓝色
-                    { min: 10.1, max: 20, color: '#006edd' }, // 10 到 20 的值，颜色为深蓝色
-                    { min: 20.1, max: 30, color: '#ff0000' }, // 20 到 30 的值，颜色为红色
-                    { min: 30.1, max: 40, color: '#ff7f00' }, // 30 到 40 的值，颜色为橙色
-                    { min: 40.1, max: 50, color: '#ffff00' }, // 40 到 50 的值，颜色为黄色
+                    { min: 0, max: 0.99, color: '#e0ffff' },   // 10 及以下的值，颜色为浅蓝色
+                    { min: 1, max: 1.99, color: '#006edd' }, // 10 到 20 的值，颜色为深蓝色
+                    { min: 2, max: 2.99, color: '#ffff00' }, // 20 到 30 的值，颜色为红色
+                    { min: 3, max: 3.99, color: '#ff7f00' }, // 30 到 40 的值，颜色为橙色
+                    { min: 40.1, max: 50, color: '#ff0000' }, // 40 到 50 的值，颜色为黄色
                 ],
                 text: ['高', '低'], // 映射显示的文字
                 calculable: true,
@@ -1240,10 +1245,36 @@ async function create_china_chart(){
                     geoIndex: 0,
                     roam: true,
                     data: [
-                        { name: "苏州市", value:5 },  // 北京省份设置为红色
-                        { name: "湖州市", value:15 },  // 上海省份设置为绿色
-                        { name: "成都市", value:25 }, // 广东省份设置为蓝色
-                        { name: "大连市", value:35 }
+                        { name: "阿坝藏族羌族自治州", value:1 },
+                        { name: "安顺市", value:1 },
+                        { name: "常州市", value:1 },
+                        { name: "成都市", value:1 },
+                        { name: "大连市", value:1 },
+                        { name: "贵阳市", value:1 },
+                        { name: "杭州市", value:1 },
+                        { name: "绍兴市", value:1 },
+                        { name: "深圳市", value:1 },
+                        { name: "沈阳市", value:1 },
+                        { name: "威海市", value:1 },
+                        { name: "黔南布依族苗族自治州", value:1 },
+                        { name: "烟台市", value:1 },
+                        { name: "扬州市", value:1 },
+                        { name: "长沙市", value:1 },
+                        { name: "镇江市", value:1 },
+
+                        { name: "沙坪坝区", value:1 },
+                        { name: "渝中区", value:1 },
+                        { name: "渝北区", value:1 },
+                        { name: "江北区", value:1 },
+                        { name: "南岸区", value:1 },
+                        { name: "九龙坡区", value:1 },
+                        { name: "大渡口区", value:1 },
+
+
+                        { name: "湖州市", value:2 },
+                        { name: "宁波市", value:3 },
+                        { name: "苏州市", value:7 },
+                        { name: "南京市", value:40 }
                         // 其他省份使用默认颜色（如果不设置）
                     ]
                 },
