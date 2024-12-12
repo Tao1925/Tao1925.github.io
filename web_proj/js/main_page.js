@@ -1385,8 +1385,43 @@ function getFormattedTime() {
 }
 
 
-function create_movie_page() {
 
+async function create_movie_page() {
+    try{
+        const response = await fetch("/output/movie.txt");
+        const content = await response.text();
+        const lines = content.split('\n');
+
+        var movie_container = document.getElementById('movie_container');
+        movie_container.style.justifyContent = 'start';
+
+        lines.forEach(line => {
+            const words = line.split(' ');
+            var movie_wrapper = document.createElement('div');
+            movie_wrapper.classList.add('movie_wrapper');
+
+            var movie_photo_container = document.createElement('div');
+            movie_photo_container.classList.add('movie_photo_container');
+
+            var movie_img = document.createElement('img');
+            movie_img.src = '/output/photo/movie/' + words[1] + '.jpg'
+
+            movie_photo_container.appendChild(movie_img);
+
+            var movie_info = document.createElement('div');
+            movie_info.classList.add('movie_info');
+            movie_info.innerHTML = line
+
+            movie_wrapper.appendChild(movie_photo_container)
+            movie_wrapper.appendChild(movie_info);
+
+
+            movie_container.appendChild(movie_wrapper);
+        })
+
+    }catch (error){
+        console.log(error)
+    }
 }
 
 function updateTime(){

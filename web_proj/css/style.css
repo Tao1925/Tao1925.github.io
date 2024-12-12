@@ -276,3 +276,46 @@ span{
         transform: scale(0.6) rotate(-45deg);
     }
 }
+
+#movie_container{
+    overflow-y: hidden;
+    overflow-x: auto;
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, 25vw); /* 每列宽 25vw，自动填充 */
+    grid-auto-rows: 50vh; /* 每行高 50vh */
+    justify-content: start; /* 从左对齐 */
+    align-content: start; /* 从顶部对齐 */
+    left: 100vw;
+    width: 300vw; /* 根据子元素宽度动态调整父容器宽度 */
+    height: 100vh; /* 父容器高度固定为 100vh */
+}
+.movie_wrapper {
+    background-color: lightblue;
+    border: 1px solid blue;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    width: 25vw;
+    height: 50vh;
+}
+.movie_photo_container{
+    width: 25vw;
+    height: 45vh;
+    overflow: hidden; /* 超出部分裁剪 */
+    position: relative;
+}
+.movie_photo_container img {
+    width: 100%; /* 占满父容器宽度 */
+    height: 100%; /* 占满父容器高度 */
+    object-fit: cover; /* 保持比例并裁剪多余部分 */
+    object-position: center; /* 图片居中显示 */
+}
+.movie_info{
+    width: 25vw;
+    height: 5vh;
+    text-align: center;
+    justify-content: center;
+    font-size: 3vh;
+}
