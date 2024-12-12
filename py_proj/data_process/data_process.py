@@ -1,6 +1,6 @@
 import csv
 import os
-from PIL import Image
+# from PIL import Image
 # import jieba
 from collections import Counter
 
@@ -123,18 +123,62 @@ def gen_photos_info(photo_folder_path):
             f.close()
 
 
+def count_call():
+    result_string = ""
+    with open("../../output/count_calls.txt", mode='r', encoding='utf-8') as f:
+        lines = f.readlines()
+        audio_cnt = 0
+        video_cnt = 0
+        audio_total_time = 0
+        video_total_time = 0
+        max_audio_time = 0
+        max_video_time = 0
+        for line in lines:
+            words = line.split()
+            if words[2] == "audio":
+                audio_cnt += 1
+                audio_total_time += eval(words[3])
+                max_audio_time = max(max_audio_time, eval(words[3]))
+            elif words[2] == "video":
+                video_cnt += 1
+                video_total_time += eval(words[3])
+                max_video_time = max(max_video_time, eval(words[3]))
+
+        result_string += "语音通话次数：" + str(audio_cnt) + '\n'
+        result_string += "视频通话次数：" + str(video_cnt) + '\n'
+        result_string += "语音通话总时长：" + str(audio_total_time) + '\n'
+        result_string += "视频通话总时长：" + str(video_total_time) + '\n'
+
+        for line in lines:
+            words = line.split()
+            if words[2] == "audio" and max_audio_time == eval(words[3]):
+                result_string += "最长的一次语音通话聊了：" + str(max_audio_time) + "分钟"
+                result_string += "是在日期" + words[0] + "在时间" + words[1]
+                result_string += "通话类型" + words[2] + '\n'
+            elif words[2] == "video" and max_video_time == eval(words[3]):
+                result_string += "最长的一次视频通话聊了：" + str(max_video_time) + "分钟"
+                result_string += "是在日期" + words[0] + "在时间" + words[1]
+                result_string += "通话类型" + words[2] + '\n'
+
+    print(result_string)
+
+    with open("../../output/calls_analyze.txt", mode='w', encoding='utf-8') as f:
+        f.write(result_string)
+        f.close()
+
 
 
 def read_csv():
-    f = open("../../data/chat.csv", mode='r', encoding='utf-8')
-    reader = csv.reader(f)
+    # f = open("../../data/chat.csv", mode='r', encoding='utf-8')
+    # reader = csv.reader(f)
 
     # count_chat_monthly(reader)
     # count_chat_daily(reader)
     # count_chat_hourly(reader)
     # count_word_frequency(reader)
-    gen_photos_info("../../output/photo/nj")
-    gen_photos_info("../../output/photo/china")
+    # gen_photos_info("../../output/photo/nj")
+    # gen_photos_info("../../output/photo/china")
+    count_call()
 
 
 

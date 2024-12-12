@@ -190,7 +190,7 @@ span{
     right: 0;
     transform: scale(0.1);
     transform-origin: top right;
-    opacity: 0.5;
+    opacity: 0;
 }
 #down_arrow{
     position: fixed;
@@ -199,7 +199,7 @@ span{
     right: 0;
     transform: scale(0.1);
     transform-origin: bottom right;
-    opacity: 0.5;
+    opacity: 0;
 }
 #heart_container{
     position: absolute;
@@ -208,7 +208,25 @@ span{
     height: 20vh;
     top: 80vh;
 }
-
+#begin_text{
+    position: absolute;
+    width: 100vw;
+    left: 0;
+    height: 40vh;
+    top: 30vh;
+    text-align: center;
+    z-index: 9999;
+}
+#hint_text{
+    position: absolute;
+    width: 50vw;
+    height: 50vh;
+    top: 25vh;
+    left: 25vw;
+    text-align: center;
+    font-size: 3rem;
+    opacity: 0;
+}
 .heart {
     display: none;
     opacity: 0;
