@@ -232,9 +232,56 @@ def count_call():
         f.close()
 
 
+def count_by_month():
+    with open("../../output/count_chat_monthly.txt", mode='r', encoding='utf-8') as f:
+        lines = f.readlines()
+        nums = [0] * 13
+        for line in lines:
+            words = line.split()
+            month_num = words[0].split('-')[1]
+            if month_num[0] == '0':
+                month_num = month_num[1:]
+            month = eval(month_num)
+            nums[month] += eval(words[1])
+        for i in range(13):
+            print(i, end=' ')
+            print(nums[i])
+
+
+def count_char(reader):
+    text_length_dict = {}
+    long_text_list = []
+    for row in reader:
+        msg_type = row[TYPE_INDEX]
+        if msg_type != '1':
+            continue
+        text = row[MSG_INDEX]
+        text_length = len(text)
+        if (text_length > 500):
+            long_text_list.append(text)
+        if text_length not in text_length_dict:
+            text_length_dict[text_length] = 1
+        else:
+            text_length_dict[text_length] += 1
+
+    sorted_dict = {key: text_length_dict[key] for key in sorted(text_length_dict)}
+    # print(sorted_dict)
+    tot_char = 0
+    with open("../../output/text_char_count.txt", mode='w', encoding='utf-8') as f:
+        for key, value in sorted_dict.items():
+            f.write(str(key) + ' ' + str(value) + '\n')
+            tot_char += key * value
+        for long_text in long_text_list:
+            f.write(str(len(long_text)) + '\n')
+            f.write(long_text + '\n')
+        f.close()
+    print("一共字符数：" + str(tot_char))
+
+
+
 def read_csv():
-    # f = open("../../data/chat.csv", mode='r', encoding='utf-8')
-    # reader = csv.reader(f)
+    f = open("../../data/chat.csv", mode='r', encoding='utf-8')
+    reader = csv.reader(f)
 
     # count_chat_monthly(reader)
     # count_chat_daily(reader)
@@ -243,7 +290,9 @@ def read_csv():
     # gen_photos_info("../../output/photo/nj")
     # gen_photos_info("../../output/photo/china")
     # count_call()
-    resize_photos("../../output/photo/movie_tmp", "../../output/photo/movie")
+    # resize_photos("../../output/photo/movie_tmp", "../../output/photo/movie")
+    # count_by_month()
+    count_char(reader)
 
 
 if __name__ == '__main__':

@@ -22,10 +22,10 @@ div[id^="page"] {
 }
 
 /* 设置不同部分的背景色 */
-#page1 {
-    background-color: #4CAF50; /* 头部背景颜色 */
-    color: white;
-}
+/*#page1 {*/
+/*    background-color: #4CAF50; !* 头部背景颜色 *!*/
+/*    color: white;*/
+/*}*/
 
 #page2 {
     background-color: #f8f8f8; /* 主体部分背景颜色 */
@@ -117,12 +117,12 @@ html {
     background-color: rgba(0, 0, 0, 0.5);
 }
 #basic_info{
-    font-size: 3rem;
+    font-size: 6vh;
     text-align: left;
 }
 #animatedNumber, .animated_num{
     font-family: "Courier New", monospace; /* 使用等宽字体 */
-    font-size: 3rem;
+    font-size: 6vh;
     font-weight: bold;
     /*width: 10ch; !* 预留5位数字的宽度（10ch 是 5 位数字的宽度） *!*/
     text-align: right;
@@ -318,4 +318,12 @@ span{
     text-align: center;
     justify-content: center;
     font-size: 3vh;
+}
+.description{
+    font-size: 6vh;
+    text-align: center;
+    justify-content: center;
+}
+.description span{
+    color: red;
 }

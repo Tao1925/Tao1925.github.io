@@ -384,6 +384,9 @@ document.addEventListener('DOMContentLoaded', () => {
     for (let i = 0; i <= 9; i++) {
         loadContent('page' + i, 'html/page' + i + '.html');
     }
+    for (let i = 1; i <= 2; i++) {
+        loadContent('page' + i + '-1', 'html/page' + i + '-1.html');
+    }
 });
 
 
@@ -668,8 +671,33 @@ async function set_page0_animation(){
 }
 
 
+function page1_enter_animation(){
+    var day_begin_and_end = document.getElementsByClassName("day_begin_and_end");
+    gsap.fromTo(day_begin_and_end, { innerText: 0 },{
+        duration: 50,
+        innerText: 191900,
+        snap: { innerText: 1 },
+        ease: "linear",
+        onUpdate: function () {
+            const target = this.targets()[0];
+            day_begin_and_end.textContent = "2019年8月25日至" +
+                (2019 + parseInt((target.innerText + 236) / 365)) + "年11月25日"
+        }
+    })
+}
+
+
 function set_page1_animation(){
     gsap.registerPlugin(ScrollTrigger);
+
+    ScrollTrigger.create({
+        trigger: "#page1",
+        start: "top center",
+        onEnter: () =>{
+            console.log("successfully enter");
+        }
+    })
+
 
     const spans = document.querySelectorAll("#basic_info .animated_num");
 
@@ -681,6 +709,12 @@ function set_page1_animation(){
         span.textContent = "";
 
     })
+
+    var day_begin_and_end = document.getElementsByClassName("day_begin_and_end");
+
+
+
+
 
     console.log(spans);
     spans.forEach((span, index) => {
@@ -713,57 +747,6 @@ function set_page1_animation(){
             }
         });
     });
-    /*
-    gsap.to(spans[0], {
-        scrollTrigger: {
-            trigger: "#page1", // 触发动画的元素
-            start: "top center", // 当 div2 顶部到达视窗中心时开始
-            end: "bottom center", // 当 div2 底部到达视窗中心时结束
-            scrub: false, // 不与滚动进度同步
-            once: true,  // 确保动画只触发一次
-            onEnter: function() {
-                // 触发数值动画从 0 到 10000
-                gsap.to(spans[0], {
-                    innerText: 10000,
-                    duration: 3, // 动画时长
-                    snap: { innerText: 1 }, // 确保数值为整数
-                    ease: "expo.inOut", // 先快后慢
-                    delay: 5,
-                    onUpdate: function(self) {
-                        // 动画中实时更新数字
-                        const target = this.targets()[0];
-                        target.textContent = Math.round(target.innerText);
-                    }
-                });
-            }
-        }
-    });
-
-    gsap.to(spans[1], {
-        scrollTrigger: {
-            trigger: "#page1", // 触发动画的元素
-            start: "top center", // 当 div2 顶部到达视窗中心时开始
-            end: "bottom center", // 当 div2 底部到达视窗中心时结束
-            scrub: false, // 不与滚动进度同步
-            once: true,  // 确保动画只触发一次
-            onEnter: function() {
-                // 触发数值动画从 0 到 10000
-                gsap.to(spans[1], {
-                    innerText: 10000,
-                    duration: 3, // 动画时长
-                    snap: { innerText: 1 }, // 确保数值为整数
-                    ease: "expo.inOut", // 先快后慢
-                    onUpdate: function(self) {
-                        // 动画中实时更新数字
-                        const target = this.targets()[0];
-                        target.textContent = Math.round(target.innerText);
-                    }
-                });
-            }
-        }
-    });
-
-     */
 }
 
 function create_month_chart() {
@@ -807,17 +790,28 @@ function create_month_chart() {
                     },
                     symbol: 'circle', // 数据点的样式为圆形
                     animation: true, // 启用动画
-                    animationDuration: 30000, // 动画持续时间
-                    animationEasing: 'elasticOut', // 弹性缓动效果
+                    animationDuration: 15000, // 动画持续时间
+                    // animationEasing: 'elasticOut', // 弹性缓动效果
                     animationDelay: function (idx) {
-                        return idx * 200; // 每个数据点有不同的延迟
+                        return idx * 230; // 每个数据点有不同的延迟
                     },
-                    animationDurationUpdate: 15000, // 更新时的动画时长
-                    animationEasingUpdate: 'bounceOut' // 更新时的弹跳效果
+                    // animationDurationUpdate: 15000, // 更新时的动画时长
+                    // animationEasingUpdate: 'bounceOut' // 更新时的弹跳效果
                 }]
             };
+
+            gsap.registerPlugin(ScrollTrigger);
+
+            ScrollTrigger.create({
+                trigger: "#page2",
+                start: "top center",
+                onEnter: () =>{
+                    chart.setOption(option);
+                }
+            })
+
             // 创建并渲染图表
-            chart.setOption(option);
+            // chart.setOption(option);
 
 
             console.log('Strings:', strings);
