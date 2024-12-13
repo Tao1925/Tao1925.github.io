@@ -348,3 +348,8 @@ span{
     width: 100vw;
     height: auto !important;
 }
+#middle_container{
+    text-align: center;
+    justify-content: center;
+    font-size: 10vh;
+}
