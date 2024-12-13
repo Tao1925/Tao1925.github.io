@@ -327,3 +327,24 @@ span{
 .description span{
     color: red;
 }
+
+#end_page{
+    text-align: center;
+    justify-content: center;
+    font-size: 10vh;
+}
+.time_container{
+    text-align: center;
+    justify-content: center;
+    font-size: 10vh;
+}
+#birthday_img{
+    width: 100vw;
+    height: auto;
+    display: block;
+}
+#page13{
+    display: inline-block;
+    width: 100vw;
+    height: auto !important;
+}

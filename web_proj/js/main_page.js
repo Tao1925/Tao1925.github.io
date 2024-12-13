@@ -41,9 +41,10 @@ function loadContent(targetId, file) {
             if (targetId === "page10"){
                 create_time_page();
             }
-            if (targetId === "page12"){
+            if (targetId === "page12") {
                 create_middle_animation();
             }
+
         })
         .catch(err => console.error(err));
 }
@@ -154,6 +155,7 @@ async function show_photos(page_id, marker_name) {
         image_urls.forEach(url => {
             const img = document.createElement('img');
             img.src = url;
+            img.style.opacity = "0";
             // img.onload = function(){
             //     // 获取屏幕的宽高
             //     const screenWidth = window.innerWidth;
@@ -386,7 +388,7 @@ async function show_photos(page_id, marker_name) {
 
 // 加载内容
 document.addEventListener('DOMContentLoaded', () => {
-    for (let i = 0; i <= 12; i++) {
+    for (let i = 0; i <= 13; i++) {
         loadContent('page' + i, 'html/page' + i + '.html');
     }
     for (let i = 1; i <= 4; i++) {
@@ -641,7 +643,12 @@ async function show_up_down_button() {
 }
 async function show_hint_text() {
     const hint_text = document.getElementById('hint_text');
-    hint_text.innerHTML = "聊天记录 \n 记录着故事 \n 承载着回忆 \n 点击开启我们的 \n 聊天记录可视化";
+    const texts= ["聊天记录", "记录着故事", "承载着回忆", "点击开启我们的", "聊天记录可视化", "↓"]
+    texts.forEach(text => {
+        const p_tag = document.createElement('p');
+        p_tag.textContent = text;
+        hint_text.appendChild(p_tag);
+    })
     gsap.to(hint_text, {
         duration: 2, // 动画时长，单位为秒
         opacity: 1, // 最终透明度
@@ -1631,6 +1638,7 @@ async function middle_animation(){
     p1.innerHTML = "结束了";
     await delay(2000);
     p1.innerHTML = "结束了吗？";
+    await delay(2000);
     await delay(2000);
     const p2 = document.createElement('p');
     middle_container.appendChild(p2);
