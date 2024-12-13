@@ -3,6 +3,7 @@ import os
 from PIL import Image
 import jieba
 from collections import Counter
+from datetime import datetime
 
 TYPE_INDEX = 2
 MSG_INDEX = 7
@@ -92,18 +93,48 @@ def count_chat_monthly(reader):
 def count_chat_daily(reader):
     day_dict = {}
 
+    day_diff_list = []
+    date1 = datetime(2019, 1, 1)
+
+
     for row in reader:
         date = row[DATE_INDEX]
         day_date = date[:DAY_STRING_SIZE]
+
+        if day_date == "StrTime":
+            continue
+        date2 = datetime.strptime(day_date, "%Y-%m-%d")
+        date_diff = date2 - date1
+        day_diff = date_diff.days
+        if len(day_diff_list) == 0 or day_diff_list[-1] != day_diff:
+            day_diff_list.append(day_diff)
+
         if day_date not in day_dict.keys():
             day_dict[day_date] = 1
         else:
             day_dict[day_date] += 1
 
     f = open("../../output/count_chat_daily.txt", mode='w', encoding='utf-8')
+    max_key = ""
+    max_value = 0
     for key, value in day_dict.items():
+        if value > max_value:
+            max_key = key
+            max_value = value
+
         f.write(key + ' ' + str(value) + '\n')
 
+    print(max_key + ' ' + str(max_value))
+
+    not_chat_cnt = 0
+    for i in range(day_diff_list[0], day_diff_list[-1]):
+        if i not in day_diff_list:
+            not_chat_cnt += 1
+            print(i, end= ' ')
+    print()
+
+    print("not_chat_day_cnt = " + str(not_chat_cnt))
+    print(day_diff_list)
 
 def count_chat_hourly(reader):
     hour_dicts = [{}, {}]
@@ -284,15 +315,16 @@ def read_csv():
     reader = csv.reader(f)
 
     # count_chat_monthly(reader)
-    # count_chat_daily(reader)
+    count_chat_daily(reader)
     # count_chat_hourly(reader)
     # count_word_frequency(reader)
-    gen_photos_info("../../output/photo/nj")
-    gen_photos_info("../../output/photo/china")
+    # gen_photos_info("../../output/photo/nj")
+    # gen_photos_info("../../output/photo/china")
     # count_call()
     # resize_photos("../../output/photo/movie_tmp", "../../output/photo/movie")
     # count_by_month()
     # count_char(reader)
+
 
 
 if __name__ == '__main__':
