@@ -1366,9 +1366,10 @@ async function create_china_chart(){
                 type: 'piecewise',
                 pieces: [
                     { min: 0, max: 0.99, color: '#e0ffff' },   // 10 及以下的值，颜色为浅蓝色
-                    { min: 1, max: 1.99, color: '#006edd' }, // 10 到 20 的值，颜色为深蓝色
-                    { min: 2, max: 2.99, color: '#ffff00' }, // 20 到 30 的值，颜色为红色
-                    { min: 3, max: 3.99, color: '#ff7f00' }, // 30 到 40 的值，颜色为橙色
+                    { min: 1, max: 1.00, color: '#87CEFA' },
+                    { min: 2, max: 2.99, color: '#006edd' }, // 10 到 20 的值，颜色为深蓝色
+                    { min: 3, max: 3.99, color: '#ffff00' }, // 20 到 30 的值，颜色为红色
+                    { min: 4, max: 10.99, color: '#ff7f00' }, // 30 到 40 的值，颜色为橙色
                     { min: 40.1, max: 50, color: '#ff0000' }, // 40 到 50 的值，颜色为黄色
                 ],
                 text: ['高', '低'], // 映射显示的文字
