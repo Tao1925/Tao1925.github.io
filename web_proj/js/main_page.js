@@ -1377,7 +1377,7 @@ async function create_china_chart(){
                     { min: 2, max: 2.99, color: '#006edd' }, // 10 到 20 的值，颜色为深蓝色
                     { min: 3, max: 3.99, color: '#ffff00' }, // 20 到 30 的值，颜色为红色
                     { min: 4, max: 10.99, color: '#ff7f00' }, // 30 到 40 的值，颜色为橙色
-                    { min: 40.1, max: 50, color: '#ff0000' }, // 40 到 50 的值，颜色为黄色
+                    { min: 11, max: 50, color: '#ff0000' }, // 40 到 50 的值，颜色为黄色
                 ],
                 text: ['高', '低'], // 映射显示的文字
                 calculable: true,
@@ -1609,16 +1609,21 @@ function updateTime(){
 
     const meet_days_element = document.getElementById("meet_days");
     meet_days_element.innerHTML = meet_days;
+    meet_days_element.style.color = "red";
     const love_days_element = document.getElementById("love_days");
     love_days_element.innerHTML = love_days;
+    love_days_element.style.color = "red";
 
     // 更新小时、分钟和秒钟的文本
     const hourElement = document.getElementById('hour');
     hourElement.innerHTML = hours;
+    hourElement.style.color = "red";
     const minuteElement = document.getElementById('minute');
     minuteElement.innerHTML = minutes;
+    minuteElement.style.color = "red";
     const secondElement = document.getElementById('second');
     secondElement.innerHTML = seconds;
+    secondElement.style.color = "red";
 
 
 }
@@ -1639,11 +1644,21 @@ async function middle_animation(){
     await delay(2000);
     p1.innerHTML = "结束了吗？";
     await delay(2000);
-    await delay(2000);
     const p2 = document.createElement('p');
     middle_container.appendChild(p2);
     p2.innerHTML = "当然不！";
     await delay(2000);
+    const p3 = document.createElement('p');
+    middle_container.appendChild(p3);
+    p3.innerHTML = "聊天记录怎么能少了图片呢"
+    await delay(2000);
+    const p4 = document.createElement('p');
+    middle_container.appendChild(p4);
+    p4.innerHTML = "如果文字引导人们通向情感的彼岸"
+    await delay(2000);
+    const p5 = document.createElement('p');
+    middle_container.appendChild(p5);
+    p5.innerHTML = "那么图片就是让人直接看到彼岸的风景"
 
 }
 function create_middle_animation(){

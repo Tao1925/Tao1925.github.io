@@ -279,6 +279,20 @@ def count_by_month():
             print(nums[i])
 
 
+def count_by_year():
+    with open("../../output/count_chat_monthly.txt", mode='r', encoding='utf-8') as f:
+        lines = f.readlines()
+        year_chat_dict = {}
+        for line in lines:
+            words = line.split()
+            year_string = words[0].split('-')[0]
+            if year_string not in year_chat_dict.keys():
+                year_chat_dict[year_string] = eval(words[1])
+            else:
+                year_chat_dict[year_string] += eval(words[1])
+        for key, value in year_chat_dict.items():
+            print(key + ' ' +  str(value))
+
 def count_char(reader):
     text_length_dict = {}
     long_text_list = []
@@ -309,13 +323,27 @@ def count_char(reader):
     print("一共字符数：" + str(tot_char))
 
 
+def count_by_sender():
+    with open("../../output/count_chat_hourly.txt", mode='r', encoding='utf-8') as f:
+        sxy_count = 0
+        tsy_count = 0
+        lines = f.readlines()
+        for line in lines:
+            words = line.split()
+            if words[0] == "SXY":
+                sxy_count += eval(words[2])
+            elif words[0] == "TSY":
+                tsy_count += eval(words[2])
+        print("sxy_count = " + str(sxy_count))
+        print("tsy_count = " + str(tsy_count))
+
 
 def read_csv():
-    f = open("../../data/chat.csv", mode='r', encoding='utf-8')
-    reader = csv.reader(f)
+    # f = open("../../data/chat.csv", mode='r', encoding='utf-8')
+    # reader = csv.reader(f)
 
     # count_chat_monthly(reader)
-    count_chat_daily(reader)
+    # count_chat_daily(reader)
     # count_chat_hourly(reader)
     # count_word_frequency(reader)
     # gen_photos_info("../../output/photo/nj")
@@ -323,7 +351,9 @@ def read_csv():
     # count_call()
     # resize_photos("../../output/photo/movie_tmp", "../../output/photo/movie")
     # count_by_month()
+    # count_by_year()
     # count_char(reader)
+    count_by_sender()
 
 
 
